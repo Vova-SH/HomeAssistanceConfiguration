@@ -1,0 +1,8 @@
+system_tts:
+  input_text:
+    tts:
+      name: Text for speech
+      initial: Hello
+
+  shell_command:
+    tts: 'termux-tts-speak "{{ states("input_text.tts") }}"'

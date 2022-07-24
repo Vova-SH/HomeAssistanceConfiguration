@@ -1,0 +1,14 @@
+system_monitor:
+  sensor:
+    - platform: systemmonitor
+      resources:
+        - type: disk_use_percent
+          arg: /storage/emulated
+        - type: disk_use
+          arg: /storage/emulated
+        - type: disk_free
+          arg: /storage/emulated
+        - type: memory_use_percent
+        - type: memory_use
+        - type: memory_free
+        - type: processor_use

@@ -1,0 +1,19 @@
+system_brightness:
+  input_number:
+    system_brightness:
+      name: Brightness
+      initial: 0
+      min: 0
+      max: 255
+      step: 1
+
+  shell_command:
+    set_system_brightness: 'termux-brightness {{ states("input_number.system_brightness") | int }}'
+
+  automation:
+    - alias: "Screen Brightness"
+      trigger:
+        platform: state
+        entity_id: input_number.system_brightness
+      action:
+        service: shell_command.set_system_brightness

@@ -1,0 +1,35 @@
+system_battery:
+  binary_sensor:
+    - platform: template
+      sensors:
+        system_battery_is_charge:
+          device_class: plug
+          value_template: "{{ state_attr('sensor.system_battery', 'plugged') != 'UNPLUGGED' }}"
+          icon_template: >
+            {% if value == 'UNPLUGGED' %}
+              mdi:power-plug-off
+            {% else %}
+              mdi:power-plug
+            {% endif %}
+  sensor:
+    - platform: command_line
+      name: system_battery
+      command: termux-battery-status
+      json_attributes:
+        - health
+        - percentage
+        - temperature
+        - status
+        - plugged
+      value_template: "idle"
+      scan_interval: 300
+    - platform: template
+      sensors:
+        system_battery_temperature:
+          value_template: "{{ state_attr('sensor.system_battery', 'temperature') | round(1) }}"
+          device_class: temperature
+          unit_of_measurement: "°C"
+        system_battery_percentage:
+          value_template: "{{ state_attr('sensor.system_battery', 'percentage') }}"
+          device_class: battery
+          unit_of_measurement: "%"

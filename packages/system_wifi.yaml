@@ -1,0 +1,35 @@
+system_wifi:
+  sensor:
+    - platform: command_line
+      name: system_wifi_info
+      command: termux-wifi-connectioninfo
+      json_attributes:
+        - bssid
+        - frequency_mhz
+        - ip
+        - link_speed_mbps
+        - mac_address
+        - network_id
+        - rssi
+        - ssid
+        - ssid_hidden
+        - supplicant_state
+      value_template: "idle"
+      scan_interval: 600
+    - platform: template
+      sensors:
+        system_wifi_frequency:
+          value_template: "{{ state_attr('sensor.system_wifi_info', 'frequency_mhz') }}"
+          device_class: frequency
+          unit_of_measurement: "MHz"
+        system_wifi_ip:
+          value_template: "{{ state_attr('sensor.system_wifi_info', 'ip') }}"
+        system_wifi_ssid:
+          value_template: "{{ state_attr('sensor.system_wifi_info', 'ssid') }}"
+        system_wifi_strength:
+          value_template: "{{ state_attr('sensor.system_wifi_info', 'rssi') }}"
+          device_class: signal_strength
+          unit_of_measurement: "dB"
+        system_wifi_link_speed:
+          value_template: "{{ state_attr('sensor.system_wifi_info', 'link_speed_mbps') }}"
+          unit_of_measurement: "mb/s"
